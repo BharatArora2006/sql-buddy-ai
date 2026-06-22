@@ -1,0 +1,29 @@
+{
+  "table_name": "job_history",
+
+  "business_name": "Job History",
+
+  "description": "Stores historical job related attributes.",
+
+  "columns": {
+    "employee_id": "Unique participant identifier",
+
+    "effective_date": "Date attribute became effective",
+
+    "field_name": "Type of attribute",
+
+    "field_value": "Value of attribute"
+  },
+
+  "field_types": {
+    "PLN": "Plan Code",
+
+    "DIV": "Division",
+
+    "LOC": "Location",
+
+    "LABGRD": "Labor Grade",
+
+    "BENGR": "Benefit Group"
+  }
+}

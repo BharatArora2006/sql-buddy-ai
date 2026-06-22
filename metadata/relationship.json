@@ -1,0 +1,19 @@
+{
+  "relationships": [
+    {
+      "table1": "emp_status",
+      "table2": "job_history",
+      "join_column": "employee_id"
+    },
+    {
+      "table1": "emp_status",
+      "table2": "deferred_benefit",
+      "join_column": "employee_id"
+    },
+    {
+      "table1": "emp_status",
+      "table2": "payment",
+      "join_column": "employee_id"
+    }
+  ]
+}

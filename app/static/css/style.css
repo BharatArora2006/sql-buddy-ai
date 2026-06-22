@@ -1,0 +1,175 @@
+body {
+
+    background: #f5f7fb;
+
+    font-family: "Segoe UI", sans-serif;
+
+    min-height: 100vh;
+}
+
+.navbar-custom {
+
+    background: linear-gradient(
+        90deg,
+        #0f172a,
+        #1e293b
+    );
+
+    color: white;
+
+    padding: 15px 30px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.brand-title {
+
+    font-size: 28px;
+
+    font-weight: 700;
+}
+
+.connection-status {
+
+    color: #4ade80;
+
+    font-weight: 600;
+}
+
+.main-container {
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding: 30px;
+}
+
+.hero-card {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+    margin-bottom: 25px;
+}
+
+.hero-title {
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.hero-subtitle {
+
+    color: #64748b;
+
+    margin-bottom: 25px;
+}
+
+.question-box {
+
+    border-radius: 15px;
+
+    border: 2px solid #e2e8f0;
+
+    min-height: 120px;
+
+    resize: none;
+}
+
+.ask-btn {
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #3b82f6
+    );
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding: 12px 30px;
+
+    font-weight: 600;
+
+    margin-top: 15px;
+}
+
+.ask-btn:hover {
+
+    transform: translateY(-2px);
+
+    transition: 0.3s;
+}
+
+.result-card {
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.section-title {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    margin-bottom: 15px;
+}
+
+.sql-box {
+
+    background: #0f172a;
+
+    color: #38bdf8;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    min-height: 120px;
+
+    font-family: Consolas;
+}
+
+.metadata-tag {
+
+    display: inline-block;
+
+    background: #dbeafe;
+
+    color: #1e40af;
+
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    margin: 5px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.table-responsive {
+
+    max-height: 500px;
+
+    overflow-y: auto;
+}

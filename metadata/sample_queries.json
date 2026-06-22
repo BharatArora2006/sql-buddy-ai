@@ -1,0 +1,20 @@
+{
+  "examples": [
+    {
+      "question": "Show active employees",
+      "sql": "SELECT * FROM emp_status WHERE emp_status_code = 'A';"
+    },
+    {
+      "question": "Show employees on leave",
+      "sql": "SELECT * FROM emp_status WHERE emp_status_code = 'L';"
+    },
+    {
+      "question": "Show deferred vested participants",
+      "sql": "SELECT * FROM deferred_benefit WHERE deferred_benefit_status = 'DF';"
+    },
+    {
+      "question": "Show Open payments",
+      "sql": "SELECT * FROM payment WHERE payment_status = 'V' and (payment_end_date > CURRENT_DATE OR payment_end_date is NULL;"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+EMPLOYEE STATUS RULES
+
+Active employee means emp_status_code = 'A'
+
+Terminated employee means emp_status_code = 'T'
+
+Leave employee means emp_status_code = 'L'
+
+Death employee means emp_status_code = 'D'
+
+
+PAYMENT RULES
+
+Verified payment means payment_status = 'V'
+
+Pending payment means payment_status = 'P'
+
+Historical payment means payment_status = 'H'
+
+Open Payment means (payment_end_date is Null or payment_end_date > current date)
+
+
+DEFERRED BENEFIT RULES
+
+Deferred Vested means deferred_benefit_status = 'DF'
+
+Voided In Payment means deferred_benefit_status = 'VP'
+
+Voided Rehire means deferred_benefit_status = 'VR'
+
+Voided Information means deferred_benefit_status = 'VI'
+
+
+JOIN RULES
+
+emp_status joins payment using employee_id
+
+emp_status joins deferred_benefit using employee_id
+
+payment joins deferred_benefit using employee_id
+
+job_history joins emp_status using employee_id

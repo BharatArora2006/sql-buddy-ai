@@ -1,0 +1,27 @@
+ {
+  "table_name": "emp_status",
+  "business_name": "Employee Status",
+
+  "description": "Stores employment status history for participants.",
+
+  "primary_key": "id",
+
+  "columns": {
+    "employee_id": "Unique participant identifier",
+
+    "emp_status_code": "Current employment status code",
+
+    "emp_status_sub_code": "Detailed employment status",
+
+    "effective_start_date": "Date when status became effective",
+
+    "effective_end_date": "Date when status ended"
+  },
+
+  "code_mappings": {
+    "A": "Active",
+    "D": "Death",
+    "T": "Terminated",
+    "L": "Leave of Absence"
+  }
+}   

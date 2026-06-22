@@ -1,0 +1,29 @@
+{
+  "business_terms": [
+
+    {
+      "term": "Active Employee",
+      "meaning": "Employee whose emp_status_code = 'A'"
+    },
+
+    {
+      "term": "Terminated Employee",
+      "meaning": "Employee whose emp_status_code = 'T'"
+    },
+
+    {
+      "term": "Deferred Vested Participant",
+      "meaning": "Participant whose deferred_benefit_status = 'DF'"
+    },
+
+    {
+      "term": "Verified Payment",
+      "meaning": "Payment record whose payment_status = 'V'"
+    },
+
+    {
+      "term": "Open Payment",
+      "meaning": "Payment record whose payment_status = 'V' and End Date is null or greater than today"
+    }
+  ]
+}

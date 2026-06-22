@@ -1,0 +1,31 @@
+{
+  "table_name": "payment",
+
+  "business_name": "Pension Payments",
+
+  "description": "Stores pension payment information.",
+
+  "columns": {
+    "employee_id": "Unique participant identifier",
+
+    "payment_amount": "Pension payment amount",
+
+    "source_code": "Payment source",
+
+    "plan_code": "Pension plan",
+
+    "payment_status": "Current payment status",
+
+    "payment_start_date": "Date payments started",
+
+    "payment_end_date": "Date payments ended"
+  },
+
+  "status_codes": {
+    "P": "Pending",
+
+    "V": "Verified",
+
+    "H": "Historical"
+  }
+}

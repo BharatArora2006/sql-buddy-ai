@@ -1,0 +1,29 @@
+{
+  "table_name": "deferred_benefit",
+
+  "business_name": "Deferred Benefits",
+
+  "description": "Stores vested and deferred pension benefits.",
+
+  "columns": {
+    "employee_id": "Unique participant identifier",
+
+    "deferred_benefit_status": "Deferred benefit status",
+
+    "deferred_benefit_amount": "Deferred vested benefit amount",
+
+    "start_date": "Deferred benefit effective date",
+
+    "plan_code": "Associated pension plan"
+  },
+
+  "status_codes": {
+    "DF": "Deferred Vested",
+
+    "VP": "Voided In Payment",
+
+    "VR": "Voided Rehire",
+
+    "VI": "Voided Information"
+  }
+}
