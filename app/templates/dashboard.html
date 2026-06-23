@@ -29,7 +29,7 @@
 
         <div class="container-fluid">
 
-            <span class="navbar-brand fw-bold fs-3">
+            <span class="navbar-brand fw-bold fs-3 text-dark">
 
                 <i class="fa-solid fa-robot"></i>
 
@@ -55,7 +55,45 @@
             <!-- MAIN PANEL -->
 
             <div class="col-lg-9">
+                <div class="row mb-3">
 
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h6>Total Queries</h6>
+                                <h3>{{ total_queries }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h6>Rows Returned</h6>
+                                <h3>{{ total_rows }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h6>Avg Runtime</h6>
+                                <h3>{{ avg_runtime }} ms</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h6>Today</h6>
+                                <h3>{{ queries_today }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <!-- QUESTION CARD -->
 
                 <div class="card shadow border-0 mb-4">

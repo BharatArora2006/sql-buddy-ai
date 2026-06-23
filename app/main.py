@@ -5,6 +5,9 @@ from fastapi import Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
+from sqlalchemy import func
+from datetime import datetime
+
 from app.database.database import engine
 from app.database.database import Base
 
@@ -64,7 +67,6 @@ def health_check():
         "message": "SQL Buddy Running"
     }
 
-
 @app.get("/dashboard")
 def dashboard(request: Request):
 
@@ -75,6 +77,41 @@ def dashboard(request: Request):
         .order_by(QueryHistory.id.desc())
         .limit(10)
         .all()
+    )
+
+    # KPI 1
+    total_queries = (
+        db.query(QueryHistory)
+        .count()
+    )
+
+    # KPI 2
+    total_rows = (
+        db.query(
+            func.sum(QueryHistory.row_count)
+        )
+        .scalar()
+    ) or 0
+
+    # KPI 3
+    avg_runtime = (
+        db.query(
+            func.avg(QueryHistory.execution_time_ms)
+        )
+        .scalar()
+    ) or 0
+
+    # KPI 4
+    today = datetime.utcnow().date()
+
+    queries_today = (
+        db.query(QueryHistory)
+        .filter(
+            func.date(
+                QueryHistory.created_at
+            ) == today
+        )
+        .count()
     )
 
     db.close()
@@ -89,7 +126,13 @@ def dashboard(request: Request):
             "review": [],
             "sql_error": "",
             "metadata_docs": [],
-            "recent_queries": recent_queries
+            "recent_queries": recent_queries,
+
+            # KPI Cards
+            "total_queries": total_queries,
+            "total_rows": total_rows,
+            "avg_runtime": round(avg_runtime, 2),
+            "queries_today": queries_today
         }
     )
 
