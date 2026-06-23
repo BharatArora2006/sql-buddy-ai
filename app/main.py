@@ -53,6 +53,44 @@ app.mount(
     name="static"
 )
 
+def get_kpis(db):
+
+    total_queries = (
+        db.query(QueryHistory)
+        .count()
+    )
+
+    total_rows = (
+        db.query(
+            func.sum(QueryHistory.row_count)
+        )
+        .scalar()
+    ) or 0
+
+    avg_runtime = (
+        db.query(
+            func.avg(QueryHistory.execution_time_ms)
+        )
+        .scalar()
+    ) or 0
+
+    today = datetime.utcnow().date()
+
+    queries_today = (
+        db.query(QueryHistory)
+        .filter(
+            func.date(QueryHistory.created_at)
+            == today
+        )
+        .count()
+    )
+
+    return {
+        "total_queries": total_queries,
+        "total_rows": total_rows,
+        "avg_runtime": round(avg_runtime, 2),
+        "queries_today": queries_today
+    }
 
 @app.on_event("startup")
 def startup():
@@ -79,40 +117,8 @@ def dashboard(request: Request):
         .all()
     )
 
-    # KPI 1
-    total_queries = (
-        db.query(QueryHistory)
-        .count()
-    )
-
-    # KPI 2
-    total_rows = (
-        db.query(
-            func.sum(QueryHistory.row_count)
-        )
-        .scalar()
-    ) or 0
-
-    # KPI 3
-    avg_runtime = (
-        db.query(
-            func.avg(QueryHistory.execution_time_ms)
-        )
-        .scalar()
-    ) or 0
-
-    # KPI 4
-    today = datetime.utcnow().date()
-
-    queries_today = (
-        db.query(QueryHistory)
-        .filter(
-            func.date(
-                QueryHistory.created_at
-            ) == today
-        )
-        .count()
-    )
+    # KPIs
+    kpis = get_kpis(db)
 
     db.close()
 
@@ -129,10 +135,7 @@ def dashboard(request: Request):
             "recent_queries": recent_queries,
 
             # KPI Cards
-            "total_queries": total_queries,
-            "total_rows": total_rows,
-            "avg_runtime": round(avg_runtime, 2),
-            "queries_today": queries_today
+            **kpis
         }
     )
 
@@ -248,6 +251,19 @@ def ask_ui(
         last_results.clear()
         last_results.extend(results)
 
+        db = SessionLocal()
+
+        recent_queries = (
+            db.query(QueryHistory)
+            .order_by(QueryHistory.id.desc())
+            .limit(10)
+            .all()
+        )
+
+        kpis = get_kpis(db)
+
+        db.close()
+
         return templates.TemplateResponse(
             request=request,
             name="dashboard.html",
@@ -258,11 +274,27 @@ def ask_ui(
                 "review": review,
                 "sql_error": "",
                 "metadata_docs": documents,
-                "recent_queries": recent_queries
+                "recent_queries": recent_queries,
+                
+                # KPIs
+                **kpis
             }
         )
 
     except Exception as e:
+
+        db = SessionLocal()
+
+        recent_queries = (
+            db.query(QueryHistory)
+            .order_by(QueryHistory.id.desc())
+            .limit(10)
+            .all()
+        )
+
+        kpis = get_kpis(db)
+
+        db.close()
 
         return templates.TemplateResponse(
             request=request,
@@ -276,7 +308,10 @@ def ask_ui(
                 ],
                 "sql_error": str(e),
                 "metadata_docs": [],
-                "recent_queries": []
+                "recent_queries": [],
+                # KPIs
+
+                **kpis
             }
         )
 
@@ -299,6 +334,17 @@ def rerun_query(
 
     if not query_obj:
 
+        db = SessionLocal()
+
+        recent_queries = (
+            db.query(QueryHistory)
+            .order_by(QueryHistory.id.desc())
+            .limit(10)
+            .all()
+        )
+
+        kpis = get_kpis(db)
+
         return templates.TemplateResponse(
             request=request,
             name="dashboard.html",
@@ -309,7 +355,10 @@ def rerun_query(
                 "sql_error": "",
                 "review": [],
                 "metadata_docs": [],
-                "recent_queries": []
+                "recent_queries": [],
+                
+                # KPI Cards
+                **kpis
             }
         )
 
@@ -348,6 +397,16 @@ def rerun_query(
     )
 
     db.close()
+    db = SessionLocal()
+
+    recent_queries = (
+        db.query(QueryHistory)
+        .order_by(QueryHistory.id.desc())
+        .limit(10)
+        .all()
+    )
+
+    kpis = get_kpis(db)
 
     return templates.TemplateResponse(
         request=request,
@@ -359,7 +418,10 @@ def rerun_query(
             "sql_error": "",
             "review": review,
             "metadata_docs": documents,
-            "recent_queries": recent_queries
+            "recent_queries": recent_queries,
+
+            # KPIs
+            **kpis
         }
     )
 
@@ -369,12 +431,15 @@ def execute_custom_sql(
     edited_sql: str = Form(...),
     original_sql: str = Form(...)
 ):
-    
+
     try:
 
         validate_sql(edited_sql)
+
         results = execute_sql(edited_sql)
+
         review = review_sql(edited_sql)
+
         sql_error = ""
 
     except Exception as e:
@@ -401,22 +466,28 @@ def execute_custom_sql(
         .all()
     )
 
+    # KPI DATA
+    kpis = get_kpis(db)
+
     db.close()
 
     return templates.TemplateResponse(
-    request=request,
-    name="dashboard.html",
-    context={
-        "question": "",
-        "generated_sql": original_sql,
-        "edited_sql": edited_sql,
-        "results": results,
-        "review": review,
-        "sql_error": sql_error,
-        "metadata_docs": [],
-        "recent_queries": recent_queries
-    }
-)
+        request=request,
+        name="dashboard.html",
+        context={
+            "question": "",
+            "generated_sql": original_sql,
+            "edited_sql": edited_sql,
+            "results": results,
+            "review": review,
+            "sql_error": sql_error,
+            "metadata_docs": [],
+            "recent_queries": recent_queries,
+
+            # KPI Cards
+            **kpis
+        }
+    )
 
 @app.get("/about")
 def about(
