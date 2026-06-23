@@ -4,6 +4,7 @@ from fastapi import Form
 
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 from sqlalchemy import func
 from datetime import datetime
@@ -498,4 +499,20 @@ def about(
         request=request,
         name="about.html",
         context={}
+    )
+
+@app.get("/ask-ui")
+def ask_ui_get():
+
+    return RedirectResponse(
+        url="/dashboard",
+        status_code=302
+    )
+
+@app.get("/execute-sql")
+def execute_sql_get():
+
+    return RedirectResponse(
+        url="/dashboard",
+        status_code=302
     )
