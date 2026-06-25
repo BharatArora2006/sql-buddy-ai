@@ -1,5 +1,5 @@
 from app.database.database import Base
-from sqlalchemy import Column, Integer, String, Date, Float, Text, DateTime
+from sqlalchemy import Column, Integer, String, Date, Float, Text, DateTime,Boolean
 from datetime import datetime
 
 
@@ -98,4 +98,23 @@ class QueryHistory(Base):
     created_at = Column(
         DateTime,
         default=datetime.utcnow
+    )
+
+    is_valid_sql = Column(
+        Boolean,
+        default=False
+    )
+
+    execution_success = Column(
+        Boolean,
+        default=False
+    )
+
+    response_time_ms = Column(
+        Integer
+    )
+
+    hallucination_detected = Column(
+        Boolean,
+        default=False
     )

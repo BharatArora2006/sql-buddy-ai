@@ -29,13 +29,19 @@
 
         <div class="container-fluid">
 
-            <span class="navbar-brand fw-bold fs-3 text-dark">
+            <div>
+                <span class="navbar-brand fw-bold fs-2 text-dark">
 
-                <i class="fa-solid fa-robot"></i>
+                    <i class="fa-solid fa-robot text-primary"></i>
 
-                SQL Buddy AI
+                    SQL Buddy AI
 
-            </span>
+                </span>
+
+                <div class="text-muted small ms-1">
+                    Enterprise Text-to-SQL Assistant powered by AI + RAG
+                </div>
+            </div>
 
             <span class="badge bg-success p-2">
 
@@ -57,7 +63,9 @@
             <div class="col-lg-9">
                 <div class="row mb-3">
 
+                    <!-- Operational KPIs -->
                     <div class="col-md-3">
+                        
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
                                 <h6>Total Queries</h6>
@@ -89,6 +97,71 @@
                             <div class="card-body text-center">
                                 <h6>Today</h6>
                                 <h3>{{ queries_today }}</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- AI KPIs -->
+                    <div style="margin-top:50px;">
+                        <h3>🤖 AI Evaluation Metrics</h3>
+                    </div>
+
+                    <div class="text-muted mb-3">
+                        Based on {{ evaluated_queries }} evaluated AI queries
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm metric-card metric-green">
+                            <div class="card-body text-center">
+                                <div class="metric-title">
+                                    ✅ SQL Validity
+                                </div>
+
+                                <div class="metric-value text-success">
+                                    {{ sql_validity_rate }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm metric-card metric-green">
+                            <div class="card-body text-center">
+                                <div class="metric-title">
+                                    🎯 Execution Success
+                                </div>
+
+                                <div class="metric-value text-success">
+                                    {{ execution_success_rate }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm metric-card metric-orange">
+                            <div class="card-body text-center">
+                                <div class="metric-title">
+                                    ⚡ LLM Response Time
+                                </div>
+
+                                <div class="metric-value text-warning">
+                                    {{ avg_llm_response_time }} ms
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card shadow-sm metric-card metric-red">
+                            <div class="card-body text-center">
+                                <div class="metric-title">
+                                    ⚠️ Hallucination Rate
+                                </div>
+
+                                <div class="metric-value text-danger">
+                                    {{ hallucination_rate }}%
+                                </div>
                             </div>
                         </div>
                     </div>

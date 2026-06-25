@@ -120,6 +120,7 @@ def dashboard(request: Request):
 
     # KPIs
     kpis = get_kpis(db)
+    llm_metrics = get_llm_metrics(db)
 
     db.close()
 
@@ -136,7 +137,8 @@ def dashboard(request: Request):
             "recent_queries": recent_queries,
 
             # KPI Cards
-            **kpis
+            **kpis,
+            **llm_metrics
         }
     )
 
@@ -205,26 +207,52 @@ def ask_ui(
             documents
         )
 
+        start_time = time.time()
+
         sql = generate_sql(prompt)
 
+        response_time_ms = int(
+            (time.time() - start_time) * 1000
+        )
+        
         logger.info(f"Question: {question}")
         logger.info(f"Generated SQL: {sql}")
 
         review = review_sql(sql)
 
-        validate_sql(sql)
+        is_valid_sql = False
+        execution_success = False
+        execution_time_ms = 0 
 
-        # START TIMER
-        start_time = time.time()
+        try:
 
-        results = execute_sql(
-            sql
-        )
+            validate_sql(sql)
 
-        # STOP TIMER
-        execution_time_ms = int(
-            (time.time() - start_time) * 1000
-        )
+            is_valid_sql = True
+
+            response_time_ms = 0
+
+            # START TIMER
+            start_time = time.time()
+
+            results = execute_sql(
+                sql
+            )
+
+            # STOP TIMER
+            execution_time_ms = int(
+                (time.time() - start_time) * 1000
+            )
+            execution_success = True
+        except Exception as e:
+
+            results = []
+
+            execution_success = False
+
+            logger.error(str(e))
+
+        
         row_count = len(results)
 
         db = SessionLocal()
@@ -233,7 +261,13 @@ def ask_ui(
             question=question,
             generated_sql=sql,
             row_count=row_count,
-            execution_time_ms=execution_time_ms
+            execution_time_ms=execution_time_ms,
+
+            is_valid_sql=is_valid_sql,
+            execution_success=execution_success,
+            response_time_ms=response_time_ms,
+
+            hallucination_detected=False
         )
 
         db.add(history)
@@ -262,6 +296,7 @@ def ask_ui(
         )
 
         kpis = get_kpis(db)
+        llm_metrics = get_llm_metrics(db)
 
         db.close()
 
@@ -278,7 +313,9 @@ def ask_ui(
                 "recent_queries": recent_queries,
                 
                 # KPIs
-                **kpis
+                **kpis,
+                **llm_metrics
+                
             }
         )
 
@@ -469,6 +506,7 @@ def execute_custom_sql(
 
     # KPI DATA
     kpis = get_kpis(db)
+    llm_metrics = get_llm_metrics(db)
 
     db.close()
 
@@ -486,7 +524,8 @@ def execute_custom_sql(
             "recent_queries": recent_queries,
 
             # KPI Cards
-            **kpis
+            **kpis,
+            **llm_metrics
         }
     )
 
@@ -516,3 +555,91 @@ def execute_sql_get():
         url="/dashboard",
         status_code=302
     )
+
+from sqlalchemy import func
+
+def get_llm_metrics(db):
+
+    evaluated_queries = (
+        db.query(QueryHistory)
+        .filter(
+            QueryHistory.response_time_ms.isnot(None)
+        )
+        .count()
+    )
+
+    if evaluated_queries == 0:
+
+        return {
+            "sql_validity_rate": 0,
+            "execution_success_rate": 0,
+            "avg_llm_response_time": 0,
+            "hallucination_rate": 0,
+            "evaluated_queries": 0
+        }
+
+    valid_queries = (
+        db.query(QueryHistory)
+        .filter(
+            QueryHistory.is_valid_sql == True,
+            QueryHistory.response_time_ms.isnot(None)
+        )
+        .count()
+    )
+
+    successful_queries = (
+        db.query(QueryHistory)
+        .filter(
+            QueryHistory.execution_success == True,
+            QueryHistory.response_time_ms.isnot(None)
+        )
+        .count()
+    )
+
+    hallucinated_queries = (
+        db.query(QueryHistory)
+        .filter(
+            QueryHistory.hallucination_detected == True,
+            QueryHistory.response_time_ms.isnot(None)
+        )
+        .count()
+    )
+
+    avg_response_time = (
+        db.query(
+            func.avg(
+                QueryHistory.response_time_ms
+            )
+        )
+        .filter(
+            QueryHistory.response_time_ms.isnot(None)
+        )
+        .scalar()
+    ) or 0
+
+    return {
+
+        "sql_validity_rate":
+            round(
+                (valid_queries / evaluated_queries) * 100,
+                1
+            ),
+
+        "execution_success_rate":
+            round(
+                (successful_queries / evaluated_queries) * 100,
+                1
+            ),
+
+        "avg_llm_response_time":
+            round(avg_response_time),
+
+        "hallucination_rate":
+            round(
+                (hallucinated_queries / evaluated_queries) * 100,
+                1
+            ),
+
+        "evaluated_queries":
+            evaluated_queries
+    }

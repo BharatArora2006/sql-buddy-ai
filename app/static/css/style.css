@@ -173,3 +173,55 @@ body {
 
     overflow-y: auto;
 }
+
+.metric-card {
+    border: none;
+    border-radius: 18px;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.metric-value {
+    font-size: 2.3rem;
+    font-weight: 700;
+}
+
+.metric-title {
+    font-size: 0.95rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-blue {
+    border-left: 5px solid #0d6efd;
+}
+
+.metric-green {
+    border-left: 5px solid #198754;
+}
+
+.metric-orange {
+    border-left: 5px solid #fd7e14;
+}
+
+.metric-red {
+    border-left: 5px solid #dc3545;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
