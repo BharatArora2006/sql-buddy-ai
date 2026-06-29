@@ -225,3 +225,27 @@ body {
     color: #6c757d;
     margin-bottom: 20px;
 }
+
+.ai-kpi-card {
+
+    height: 165px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+.ai-kpi-title {
+
+    min-height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}

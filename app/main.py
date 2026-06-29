@@ -100,11 +100,11 @@ def startup():
 
 
 @app.get("/")
-def health_check():
-
-    return {
-        "message": "SQL Buddy Running"
-    }
+def home():
+    return RedirectResponse(
+        url="/dashboard",
+        status_code=302
+    )
 
 @app.get("/dashboard")
 def dashboard(request: Request):

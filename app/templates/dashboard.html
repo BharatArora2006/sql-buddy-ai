@@ -111,60 +111,118 @@
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green">
+                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
                             <div class="card-body text-center">
-                                <div class="metric-title">
-                                    ✅ SQL Validity
+
+                                <div class="ai-kpi-title">
+                                    <span class="metric-title">
+                                        ✅ SQL Validity
+                                    </span>
                                 </div>
 
                                 <div class="metric-value text-success">
                                     {{ sql_validity_rate }}%
                                 </div>
+
+                                <small class="text-muted">
+                                    {% if sql_validity_rate >= 95 %}
+                                        Excellent
+                                    {% elif sql_validity_rate >= 80 %}
+                                        Good
+                                    {% elif sql_validity_rate >= 60 %}
+                                        Fair
+                                    {% else %}
+                                        Needs Attention
+                                    {% endif %}
+                                    </small>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green">
+                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
                             <div class="card-body text-center">
-                                <div class="metric-title">
-                                    🎯 Execution Success
+
+                                <div class="ai-kpi-title">
+                                    <span class="metric-title">
+                                        🎯 Execution Success
+                                    </span>
                                 </div>
 
                                 <div class="metric-value text-success">
                                     {{ execution_success_rate }}%
                                 </div>
+
+                                <small class="text-muted">
+                                    {% if execution_success_rate >= 95 %}
+                                        Excellent
+                                    {% elif execution_success_rate >= 80 %}
+                                        Good
+                                    {% else %}
+                                        Needs Attention
+                                    {% endif %}
+                                    </small>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-orange">
+                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
                             <div class="card-body text-center">
-                                <div class="metric-title">
-                                    ⚡ LLM Response Time
+
+                                <div class="ai-kpi-title">
+                                    <span class="metric-title">
+                                        ⚡ LLM Response Time
+                                    </span>
                                 </div>
 
-                                <div class="metric-value text-warning">
+                                <div class="metric-value text-success">
                                     {{ avg_llm_response_time }} ms
                                 </div>
+
+                                <small class="text-muted">
+                                    {% if avg_llm_response_time <= 500 %}
+                                        Fast
+                                    {% elif avg_llm_response_time <= 1000 %}
+                                        Acceptable
+                                    {% else %}
+                                        Slow
+                                    {% endif %}
+                                    </small>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-red">
+                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
                             <div class="card-body text-center">
-                                <div class="metric-title">
-                                    ⚠️ Hallucination Rate
+
+                                <div class="ai-kpi-title">
+                                    <span class="metric-title">
+                                        ⚠️ Hallucination Rate
+                                    </span>
                                 </div>
 
-                                <div class="metric-value text-danger">
+                                <div class="metric-value text-success">
                                     {{ hallucination_rate }}%
                                 </div>
+
+                                <small class="text-muted">
+                                    {% if hallucination_rate == 0 %}
+                                        Safe
+                                    {% elif hallucination_rate < 5 %}
+                                        Low Risk
+                                    {% else %}
+                                        High Risk
+                                    {% endif %}
+                                    </small>
+
                             </div>
                         </div>
                     </div>
+
+                    
 
                 </div>
                 <!-- QUESTION CARD -->
