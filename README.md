@@ -120,7 +120,7 @@ The solution combines **Generative AI**, **Retrieval-Augmented Generation (RAG)*
 
 - PostgreSQL Integration
 - Modular Architecture
-- REST APIs
+- FAST APIs
 - Responsive Dashboard
 - Secure Query Execution
 - Extensible AI Pipeline
@@ -131,7 +131,7 @@ The solution combines **Generative AI**, **Retrieval-Augmented Generation (RAG)*
 
 ### Live Application
 
-> **URL:** *(Add your Render URL here)*
+> **URL:** *https://sql-buddy-ai.onrender.com*
 
 > **Note:** The application is hosted on the Render free tier. The first request may take approximately **30–60 seconds** while the application wakes up.
 
@@ -334,7 +334,7 @@ Current KPIs include:
 |-----------|------------|
 | Programming Language | Python 3.x |
 | Backend Framework | FastAPI |
-| Frontend | HTML5, CSS3, Bootstrap 5, JavaScript |
+| Frontend | HTML5, CSS3 |
 | ORM | SQLAlchemy |
 | Database | PostgreSQL |
 | Vector Database | ChromaDB |
@@ -396,7 +396,7 @@ Before running the application, ensure you have:
 ## Clone Repository
 
 ```bash
-git clone https://github.com/<your-github-username>/SQL_Buddy_AI.git
+git clone https://github.com/BharatArora2006/SQL_Buddy_AI.git
 
 cd SQL_Buddy_AI
 ```
@@ -482,25 +482,22 @@ Future deployment options
 
 ## Home Dashboard
 
-*(Insert Screenshot)*
+*<img width="1361" height="599" alt="image" src="https://github.com/user-attachments/assets/7008b94e-9624-4dda-8550-1d8494b73045" />
+*
 
 ---
 
 ## AI KPI Dashboard
 
-*(Insert Screenshot)*
-
----
-
-## Audit Logs
-
-*(Insert Screenshot)*
+*<img width="1433" height="768" alt="image" src="https://github.com/user-attachments/assets/74162a2b-90bd-46e8-acc6-0a9be9397c54" />
+*
 
 ---
 
 ## SQL Results
 
-*(Insert Screenshot)*
+*<img width="1372" height="462" alt="image" src="https://github.com/user-attachments/assets/542fa0a7-b60d-4454-a199-1d046604f39c" />
+*
 
 ---
 
@@ -633,26 +630,6 @@ Organizations adopting SQL Buddy AI can achieve:
 
 ---
 
-# 🏆 Resume Highlights
-
-This project demonstrates experience in:
-
-- Enterprise AI
-- Retrieval-Augmented Generation (RAG)
-- Large Language Models (LLMs)
-- FastAPI Development
-- PostgreSQL
-- SQLAlchemy
-- Vector Databases
-- ChromaDB
-- AI Governance
-- Hallucination Detection
-- REST APIs
-- Cloud Deployment
-- Prompt Engineering
-- Production AI Systems
-
----
 
 # ⭐ Why SQL Buddy AI?
 
