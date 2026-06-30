@@ -118,3 +118,4 @@ class QueryHistory(Base):
         Boolean,
         default=False
     )
+    hallucination_score = Column(Integer, default=0)

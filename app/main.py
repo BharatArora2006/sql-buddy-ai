@@ -28,6 +28,8 @@ from app.utils.query_cache import last_results
 import time
 from app.database.database import SessionLocal
 from app.database.models import QueryHistory
+from app.database.schema_validator import validate_schema
+
 
 from app.utils.logger import logger
 
@@ -54,24 +56,20 @@ app.mount(
     name="static"
 )
 
+from sqlalchemy import func
+from datetime import datetime
+
 def get_kpis(db):
 
-    total_queries = (
-        db.query(QueryHistory)
-        .count()
-    )
+    total_queries = db.query(QueryHistory).count()
 
     total_rows = (
-        db.query(
-            func.sum(QueryHistory.row_count)
-        )
+        db.query(func.sum(QueryHistory.row_count))
         .scalar()
     ) or 0
 
     avg_runtime = (
-        db.query(
-            func.avg(QueryHistory.execution_time_ms)
-        )
+        db.query(func.avg(QueryHistory.execution_time_ms))
         .scalar()
     ) or 0
 
@@ -80,19 +78,76 @@ def get_kpis(db):
     queries_today = (
         db.query(QueryHistory)
         .filter(
-            func.date(QueryHistory.created_at)
-            == today
+            func.date(QueryHistory.created_at) == today
         )
         .count()
     )
 
-    return {
-        "total_queries": total_queries,
-        "total_rows": total_rows,
-        "avg_runtime": round(avg_runtime, 2),
-        "queries_today": queries_today
-    }
+    evaluated_queries = (
+        db.query(QueryHistory)
+        .filter(QueryHistory.response_time_ms != None)
+        .count()
+    )
 
+    valid_sql = (
+        db.query(QueryHistory)
+        .filter(QueryHistory.is_valid_sql == True)
+        .count()
+    )
+
+    successful_execution = (
+        db.query(QueryHistory)
+        .filter(QueryHistory.execution_success == True)
+        .count()
+    )
+
+    hallucinations = (
+        db.query(QueryHistory)
+        .filter(QueryHistory.hallucination_detected == True)
+        .count()
+    )
+
+    avg_llm_response_time = (
+        db.query(func.avg(QueryHistory.response_time_ms))
+        .scalar()
+    ) or 0
+
+    sql_validity_rate = (
+        round((valid_sql / evaluated_queries) * 100, 2)
+        if evaluated_queries else 0
+    )
+
+    execution_success_rate = (
+        round((successful_execution / evaluated_queries) * 100, 2)
+        if evaluated_queries else 0
+    )
+
+    hallucination_rate = (
+        round((hallucinations / evaluated_queries) * 100, 2)
+        if evaluated_queries else 0
+    )
+
+    return {
+
+        "total_queries": total_queries,
+
+        "total_rows": total_rows,
+
+        "avg_runtime": round(avg_runtime, 2),
+
+        "queries_today": queries_today,
+
+        "evaluated_queries": evaluated_queries,
+
+        "sql_validity_rate": sql_validity_rate,
+
+        "execution_success_rate": execution_success_rate,
+
+        "avg_llm_response_time": round(avg_llm_response_time, 2),
+
+        "hallucination_rate": hallucination_rate
+
+    }
 @app.on_event("startup")
 def startup():
 
@@ -178,6 +233,8 @@ def ask_ui(
 ):
 
     question = question.strip()
+    response_time_ms = 0
+    execution_time_ms = 0
 
     if not question:
 
@@ -202,6 +259,16 @@ def ask_ui(
 
         documents = result["documents"][0]
 
+        # print("\n========== DOCUMENTS ==========\n")
+
+        # for i, doc in enumerate(documents):
+
+        #     print(f"Document {i+1}")
+
+        #     print(doc)
+
+        #     print("--------------------------------")
+
         prompt = build_prompt(
             question,
             documents
@@ -210,10 +277,100 @@ def ask_ui(
         start_time = time.time()
 
         sql = generate_sql(prompt)
+        response_time_ms = int((time.time() - start_time) * 1000)
+        print("######## LLM RESPONSE TIME ########", response_time_ms)
 
-        response_time_ms = int(
-            (time.time() - start_time) * 1000
-        )
+        hallucination_result = validate_schema(sql)
+        print("Hallucination Result:", hallucination_result)
+
+        logger.info(f"Hallucination Result: {hallucination_result}")
+        hallucination_detected = hallucination_result["hallucination"]
+        hallucination_score = hallucination_result["score"]
+        hallucinated_objects = hallucination_result["objects"]
+      
+
+        if hallucination_detected:
+
+            db = SessionLocal()
+
+            history = QueryHistory(
+
+                question=question,
+
+                generated_sql=sql,
+
+                row_count=0,
+
+                execution_time_ms=0,
+
+                response_time_ms=response_time_ms,
+
+                is_valid_sql=False,
+
+                execution_success=False,
+
+                hallucination_detected=True
+            )
+
+            db.add(history)
+            print("######## ABOUT TO COMMIT QUERY HISTORY ########")
+            db.commit()
+            print("######## QUERY HISTORY COMMITTED ########")
+
+            recent_queries = (
+
+                db.query(QueryHistory)
+
+                .order_by(QueryHistory.id.desc())
+
+                .limit(10)
+
+                .all()
+
+            )
+
+            kpis = get_kpis(db)
+            print("==========KPI===============",kpis)
+
+            db.close()
+
+            return templates.TemplateResponse(
+
+                request=request,
+
+                name="dashboard.html",
+
+                context={
+
+                    "question": question,
+
+                    "generated_sql": sql,
+
+                    "results": [],
+
+                    "review": [
+
+                        "❌ Schema Validation Failed"
+
+                    ],
+
+                    "sql_error":
+
+                        "The generated SQL references objects that do not exist.<br><br>"
+
+                        + "<br>".join(hallucinated_objects),
+
+                    "metadata_docs": documents,
+
+                    "recent_queries": recent_queries,
+
+                    **kpis
+
+                }
+
+            )
+
+        
         
         logger.info(f"Question: {question}")
         logger.info(f"Generated SQL: {sql}")
@@ -229,8 +386,6 @@ def ask_ui(
             validate_sql(sql)
 
             is_valid_sql = True
-
-            response_time_ms = 0
 
             # START TIMER
             start_time = time.time()
@@ -267,11 +422,15 @@ def ask_ui(
             execution_success=execution_success,
             response_time_ms=response_time_ms,
 
-            hallucination_detected=False
+            hallucination_detected=hallucination_detected,
+            hallucination_score=hallucination_score
+
         )
 
         db.add(history)
+        print("######## ABOUT TO COMMIT QUERY HISTORY ########")
         db.commit()
+        print("######## QUERY HISTORY COMMITTED ########")
         
         recent_queries = (
             db.query(QueryHistory)
@@ -556,7 +715,6 @@ def execute_sql_get():
         status_code=302
     )
 
-from sqlalchemy import func
 
 def get_llm_metrics(db):
 
