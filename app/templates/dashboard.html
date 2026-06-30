@@ -29,23 +29,28 @@
 
         <div class="container-fluid">
 
-            <div>
-                <span class="navbar-brand fw-bold fs-2 text-dark">
+            <div class="d-flex flex-column">
+
+                <div class="navbar-brand fw-bold fs-2 text-dark mb-1">
 
                     <i class="fa-solid fa-robot text-primary"></i>
 
                     SQL Buddy AI
 
-                </span>
-
-                <div class="text-muted small ms-1">
-                    Enterprise Text-to-SQL Assistant powered by AI + RAG
                 </div>
+
+                <div class="text-muted mb-2" style="font-size:15px;">
+
+                    Enterprise AI SQL Copilot
+
+                </div>
+  
+
             </div>
 
-            <span class="badge bg-success p-2">
+            <span class="badge bg-primary fs-6 px-3 py-2">
 
-                Connected
+                AI Powered
 
             </span>
 
@@ -63,68 +68,137 @@
             <div class="col-lg-9">
                 <div class="row mb-3">
 
+                    <!-- ================= BUSINESS METRICS ================= -->
+
+                    <div class="metric-header">
+
+                        <div class="metric-header-text">
+
+                            <h3> 📊 Business Metrics</h3>
+
+                            <p>Operational usage statistics</p>
+
+                        </div>
+
+                    </div>
+
                     <!-- Operational KPIs -->
                     <div class="col-md-3">
                         
-                        <div class="card shadow-sm border-0">
+                        <div class="card metric-card metric-blue">
                             <div class="card-body text-center">
-                                <h6>Total Queries</h6>
-                                <h3>{{ total_queries }}</h3>
+                                <div class="metric-title">
+                                    📄 Total Queries
+                                </div>
+
+                                <div class="metric-value text-primary">
+                                    {{ total_queries }}
+                                </div>
+
+                                <div class="metric-description">
+                                    Overall platform usage
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0">
+                        <div class="card metric-card metric-blue">
                             <div class="card-body text-center">
-                                <h6>Rows Returned</h6>
-                                <h3>{{ total_rows }}</h3>
+                                <div class="metric-title">
+                                    📈 Rows Returned
+                                </div>
+
+                                <div class="metric-value text-primary">
+                                    {{ total_rows }}
+                                </div>
+
+                                <div class="metric-description">
+                                    SQL records returned
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0">
+                        <div class="card metric-card metric-blue">
                             <div class="card-body text-center">
-                                <h6>Avg Runtime</h6>
-                                <h3>{{ avg_runtime }} ms</h3>
+                                <div class="metric-title">
+                                    ⚡ Avg Runtime
+                                </div>
+
+                                <div class="metric-value text-success">
+                                    {{ avg_runtime }} ms
+                                </div>
+
+                                <div class="metric-description">
+                                    Database execution speed
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm border-0">
+                        <div class="card metric-card metric-blue">
                             <div class="card-body text-center">
-                                <h6>Today</h6>
-                                <h3>{{ queries_today }}</h3>
+                                <div class="metric-title">
+                                    📅 Today
+                                </div>
+
+                                <div class="metric-value text-warning">
+                                    {{ queries_today }}
+                                </div>
+
+                                <div class="metric-description">
+                                    Queries executed today
+                                </div>
                             </div>
                         </div>
                     </div>
 
                    <!-- AI KPIs -->
-                    <div style="margin-top:50px;">
-                        <h3>🤖 AI Evaluation Metrics</h3>
-                    </div>
+                    <!-- ================= AI METRICS ================= -->
 
-                    <div class="text-muted mb-3">
-                        Based on {{ evaluated_queries }} evaluated AI queries
+                    <div class="metric-header mt-5">
+
+                        <div class="metric-header-text">
+
+                            <h3> 🤖 AI Evaluation Metrics</h3>
+
+                            <p>Quality and reliability of AI-generated SQL</p>
+
+                        </div>
+
+                        <div class="metric-header-right">
+
+                            <span class="eval-badge">
+
+                                Evaluated Queries :
+                                <strong>{{ evaluated_queries }}</strong>
+
+                            </span>
+
+                        </div>
+
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
+
+                        <div class="card metric-card metric-green">
+
                             <div class="card-body text-center">
 
-                                <div class="ai-kpi-title">
-                                    <span class="metric-title">
-                                        ✅ SQL Validity
-                                    </span>
+                                <div class="metric-title">
+                                    ✅ SQL Validity
                                 </div>
 
                                 <div class="metric-value text-success">
                                     {{ sql_validity_rate }}%
                                 </div>
 
-                                <small class="text-muted">
+                                <span class="metric-status success">
+
                                     {% if sql_validity_rate >= 95 %}
                                         Excellent
                                     {% elif sql_validity_rate >= 80 %}
@@ -134,27 +208,31 @@
                                     {% else %}
                                         Needs Attention
                                     {% endif %}
-                                    </small>
+
+                                </span>
 
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
+
+                        <div class="card metric-card metric-green">
+
                             <div class="card-body text-center">
 
-                                <div class="ai-kpi-title">
-                                    <span class="metric-title">
-                                        🎯 Execution Success
-                                    </span>
+                                <div class="metric-title">
+                                    🎯 Execution Success
                                 </div>
 
                                 <div class="metric-value text-success">
                                     {{ execution_success_rate }}%
                                 </div>
 
-                                <small class="text-muted">
+                                <span class="metric-status success">
+
                                     {% if execution_success_rate >= 95 %}
                                         Excellent
                                     {% elif execution_success_rate >= 80 %}
@@ -162,26 +240,38 @@
                                     {% else %}
                                         Needs Attention
                                     {% endif %}
-                                    </small>
+
+                                </span>
+
                             </div>
+
                         </div>
+
                     </div>
                     
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
+
+                        <div class="card metric-card metric-purple">
+
                             <div class="card-body text-center">
 
-                                <div class="ai-kpi-title">
-                                    <span class="metric-title">
-                                        ⚡ LLM Response Time
-                                    </span>
+                                <div class="metric-title">
+                                    ⚡ LLM Response Time
                                 </div>
 
-                                <div class="metric-value text-success">
+                                <div class="metric-value text-primary">
                                     {{ avg_llm_response_time }} ms
                                 </div>
 
-                                <small class="text-muted">
+                                <span class="metric-status
+                                    {% if avg_llm_response_time <= 500 %}
+                                        success
+                                    {% elif avg_llm_response_time <= 1000 %}
+                                        warning
+                                    {% else %}
+                                        danger
+                                    {% endif %}">
+
                                     {% if avg_llm_response_time <= 500 %}
                                         Fast
                                     {% elif avg_llm_response_time <= 1000 %}
@@ -189,26 +279,47 @@
                                     {% else %}
                                         Slow
                                     {% endif %}
-                                    </small>
+
+                                </span>
+
                             </div>
+
                         </div>
+
                     </div>
 
                     <div class="col-md-3">
-                        <div class="card shadow-sm metric-card metric-green ai-kpi-card">
+
+                        <div class="card metric-card metric-red">
+
                             <div class="card-body text-center">
 
-                                <div class="ai-kpi-title">
-                                    <span class="metric-title">
-                                        ⚠️ Hallucination Rate
-                                    </span>
+                                <div class="metric-title">
+                                    ⚠️ Hallucination Rate
                                 </div>
 
-                                <div class="metric-value text-success">
+                                <div class="metric-value
+                                    {% if hallucination_rate == 0 %}
+                                        text-success
+                                    {% elif hallucination_rate < 5 %}
+                                        text-warning
+                                    {% else %}
+                                        text-danger
+                                    {% endif %}">
+
                                     {{ hallucination_rate }}%
+
                                 </div>
 
-                                <small class="text-muted">
+                                <span class="metric-status
+                                    {% if hallucination_rate == 0 %}
+                                        success
+                                    {% elif hallucination_rate < 5 %}
+                                        warning
+                                    {% else %}
+                                        danger
+                                    {% endif %}">
+
                                     {% if hallucination_rate == 0 %}
                                         Safe
                                     {% elif hallucination_rate < 5 %}
@@ -216,10 +327,13 @@
                                     {% else %}
                                         High Risk
                                     {% endif %}
-                                    </small>
+
+                                </span>
 
                             </div>
+
                         </div>
+
                     </div>
 
                     
@@ -660,7 +774,7 @@
 
                 <!-- ENVIRONMENT -->
 
-                <div class="card shadow-sm border-0">
+                <div class="card metric-card metric-purple">
 
                     <div class="card-header bg-white">
 
@@ -744,7 +858,7 @@
 
         <small>
 
-            Powered by FastAPI • Supabase • ChromaDB • Groq
+            Powered by Python • FastAPI • Supabase • ChromaDB • Groq • Render 
 
         </small>
 

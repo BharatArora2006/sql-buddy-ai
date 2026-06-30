@@ -278,10 +278,10 @@ def ask_ui(
 
         sql = generate_sql(prompt)
         response_time_ms = int((time.time() - start_time) * 1000)
-        print("######## LLM RESPONSE TIME ########", response_time_ms)
+        # print("######## LLM RESPONSE TIME ########", response_time_ms)
 
         hallucination_result = validate_schema(sql)
-        print("Hallucination Result:", hallucination_result)
+        # print("Hallucination Result:", hallucination_result)
 
         logger.info(f"Hallucination Result: {hallucination_result}")
         hallucination_detected = hallucination_result["hallucination"]
@@ -313,10 +313,8 @@ def ask_ui(
             )
 
             db.add(history)
-            print("######## ABOUT TO COMMIT QUERY HISTORY ########")
             db.commit()
-            print("######## QUERY HISTORY COMMITTED ########")
-
+            
             recent_queries = (
 
                 db.query(QueryHistory)
@@ -428,10 +426,9 @@ def ask_ui(
         )
 
         db.add(history)
-        print("######## ABOUT TO COMMIT QUERY HISTORY ########")
+    
         db.commit()
-        print("######## QUERY HISTORY COMMITTED ########")
-        
+   
         recent_queries = (
             db.query(QueryHistory)
             .order_by(QueryHistory.id.desc())

@@ -174,44 +174,36 @@ body {
     overflow-y: auto;
 }
 
-.metric-card {
-    border: none;
-    border-radius: 18px;
-    transition: all 0.25s ease;
-    overflow: hidden;
+.metric-card{
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#fff;
+
+    min-height:115px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    transition:.25s;
+
+    overflow:hidden;
+
 }
 
-.metric-card:hover {
+.metric-card:hover{
+
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+
 }
 
-.metric-value {
-    font-size: 2.3rem;
-    font-weight: 700;
-}
+.metric-card .card-body{
 
-.metric-title {
-    font-size: 0.95rem;
-    color: #6c757d;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    padding:18px;
 
-.metric-blue {
-    border-left: 5px solid #0d6efd;
-}
-
-.metric-green {
-    border-left: 5px solid #198754;
-}
-
-.metric-orange {
-    border-left: 5px solid #fd7e14;
-}
-
-.metric-red {
-    border-left: 5px solid #dc3545;
 }
 
 .section-title {
@@ -249,3 +241,503 @@ body {
 
     justify-content: center;
 }
+
+/* ===========================================================
+   SQL Buddy AI Enterprise UI V2
+   ADD THIS AT THE END OF style.css
+=========================================================== */
+
+body{
+    background:#f4f7fb;
+}
+
+/* ---------- Hero ---------- */
+
+.hero-card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 10px 24px rgba(0,0,0,.08);
+}
+
+.hero-title{
+    font-size:2.3rem;
+    font-weight:700;
+    color:#1e293b;
+}
+
+.hero-subtitle{
+    color:#64748b;
+    font-size:17px;
+}
+
+/* ---------- KPI Headings ---------- */
+
+.business-kpi-title,
+.ai-kpi-title{
+
+    font-size:32px !important;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+    margin-top:25px;
+
+    margin-bottom:0;
+
+}
+
+.business-kpi-subtitle,
+.ai-kpi-subtitle{
+
+    font-size:15px;
+
+    color:#64748b;
+
+    margin-bottom:18px;
+
+}
+
+/* ---------- KPI Cards ---------- */
+
+.metric-card{
+
+    border:none !important;
+
+    border-radius:18px;
+
+    min-height:95px;
+
+    background:white;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+
+    transition:.25s;
+
+}
+
+.metric-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 28px rgba(0,0,0,.15);
+
+}
+
+.metric-card .card-body{
+
+    padding:18px;
+
+}
+
+/* ---------- KPI Title ---------- */
+
+.metric-title{
+
+    font-size:13px;
+
+    font-weight:700;
+
+    letter-spacing:.8px;
+
+    text-transform:uppercase;
+
+    color:#6b7280;
+
+    margin-bottom:12px;
+
+}
+
+/* ---------- KPI Number ---------- */
+
+.metric-value{
+
+    font-size:34px;
+
+    font-weight:700;
+
+    line-height:1.1;
+
+}
+
+/* ---------- KPI Description ---------- */
+
+.metric-description{
+
+    margin-top:10px;
+
+    font-size:15px;
+
+    color:#64748b;
+
+}
+
+/* ---------- Card Colors ---------- */
+
+.metric-blue{
+
+    border-left:5px solid #2563eb;
+
+}
+
+.metric-green{
+
+    border-left:5px solid #16a34a;
+
+}
+
+.metric-purple{
+
+    border-left:5px solid #7c3aed;
+
+}
+
+.metric-orange{
+
+    border-left:5px solid #ea580c;
+
+}
+
+.metric-red{
+
+    border-left:5px solid #dc2626;
+
+}
+
+/* ---------- Buttons ---------- */
+
+.btn-primary{
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:12px 24px;
+
+    font-weight:600;
+
+    background:linear-gradient(90deg,#2563eb,#3b82f6);
+
+}
+
+.btn-primary:hover{
+
+    background:linear-gradient(90deg,#1d4ed8,#2563eb);
+
+}
+
+/* ---------- SQL Box ---------- */
+
+.sql-box{
+
+    background:#0f172a;
+
+    color:#67e8f9;
+
+    border-radius:14px;
+
+    padding:20px;
+
+    font-size:15px;
+
+    overflow:auto;
+
+}
+
+/* ---------- Tables ---------- */
+
+.table{
+
+    background:white;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+.table thead{
+
+    background:#1e293b;
+
+    color:white;
+
+}
+
+.table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+/* ---------- Recent Queries ---------- */
+
+.list-group-item{
+
+    border:none;
+
+    border-bottom:1px solid #edf2f7;
+
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar{
+
+    box-shadow:0 3px 12px rgba(0,0,0,.12);
+
+}
+
+/* ---------- Tech Badges ---------- */
+
+.tech-stack{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:8px;
+
+}
+
+.tech-badge{
+
+    background:#e8f0ff;
+
+    color:#2563eb;
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    border:1px solid #d6e4ff;
+
+    transition:.25s;
+
+}
+
+.tech-badge:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:768px){
+
+.metric-card{
+
+min-height:80px;
+
+}
+
+.metric-value{
+
+font-size:26px;
+
+}
+
+.business-kpi-title,
+.ai-kpi-title{
+
+font-size:24px !important;
+
+}
+
+}
+
+/* ===========================
+   KPI SECTION
+=========================== */
+
+.metric-section{
+
+    margin-top:35px;
+
+    margin-bottom:20px;
+
+}
+
+.metric-section-title{
+
+    font-size:32px;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+}
+
+.metric-section-subtitle{
+
+    color:#64748b;
+
+    font-size:15px;
+
+    margin-top:4px;
+
+}
+
+.tech-stack{
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:8px;
+
+margin-top:10px;
+
+}
+
+.tech-badge{
+
+display:inline-flex;
+
+align-items:center;
+
+padding:6px 14px;
+
+background:#eef4ff;
+
+color:#2563eb;
+
+border-radius:30px;
+
+font-size:12px;
+
+font-weight:700;
+
+border:1px solid #dbeafe;
+
+}
+
+.tech-badge:hover{
+
+background:#2563eb;
+
+color:white;
+
+}
+
+/*======================================================
+SECTION HEADER
+======================================================*/
+
+.metric-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin:35px 0 25px 0;
+
+}
+
+.metric-header-icon{
+
+    width:78px;
+
+    height:78px;
+
+    border-radius:22px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    margin-right:18px;
+
+    flex-shrink:0;
+
+}
+
+.business-icon{
+
+    background:#edf4ff;
+
+    color:#2563eb;
+
+}
+
+.ai-icon{
+
+    background:#f2ecff;
+
+    color:#6d28d9;
+
+}
+
+.metric-header-text{
+
+    flex:1;
+
+}
+
+.metric-header-text h2{
+
+    margin:0;
+
+    font-size:40px;
+
+    font-weight:700;
+
+    color:#1f2937;
+
+}
+
+.metric-header-text p{
+
+    margin-top:6px;
+
+    font-size:20px;
+
+    color:#64748b;
+
+}
+
+.metric-header-right{
+
+    margin-left:auto;
+
+}
+
+.eval-badge{
+
+    padding:12px 22px;
+
+    background:#ffffff;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    color:#475569;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+}
+
+.eval-badge strong{
+
+    color:#2563eb;
+
+}
+
