@@ -139,8 +139,6 @@ The solution combines **Generative AI**, **Retrieval-Augmented Generation (RAG)*
 
 # 📸 Screenshots
 
-*(Add screenshots here after uploading them to GitHub.)*
-
 Suggested sections:
 
 - Dashboard
